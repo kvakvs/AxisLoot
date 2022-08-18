@@ -10,6 +10,7 @@ defmodule Axisloot.LootHistories do
 
   def list_events(opts) do
     from(m in LootHistory)
+    |> filter(opts)
     |> sort(opts)
     |> Repo.all()
   end
@@ -22,7 +23,35 @@ defmodule Axisloot.LootHistories do
 
   defp sort(query, _opts), do: query
 
-  #  @doc "Test data not for production, only call from iex"
+  defp filter(query, opts) do
+    query
+    |> filter_by_event(opts)
+    |> filter_by_text(opts)
+    |> filter_by_who(opts)
+  end
+
+  # Optional add where event="" clause to query
+  defp filter_by_event(query, %{event: ev}) when is_binary(ev) and ev != "" do
+    where(query, event: ^ev)
+  end
+
+  defp filter_by_event(query, _opts), do: query
+
+  defp filter_by_text(query, %{text: tx}) when is_binary(tx) and tx != "" do
+    query_string = "%#{tx}%"
+    where(query, [row], like(row.text, ^query_string))
+  end
+
+  defp filter_by_text(query, _opts), do: query
+
+  defp filter_by_who(query, %{who: w}) when is_binary(w) and w != "" do
+    query_string = "%#{w}%"
+    where(query, [row], like(row.who, ^query_string))
+  end
+
+  defp filter_by_who(query, _opts), do: query
+
+  @doc "Test data not for production, only call from iex"
   def fixtures() do
     Repo.insert(%LootHistory{id: 1, event: "loot", text: "Grand Crown of Winning", who: "Nar"})
     Repo.insert(%LootHistory{id: 2, event: "loot", text: "Small Pants of Losing", who: "Spah"})

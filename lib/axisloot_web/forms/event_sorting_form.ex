@@ -1,4 +1,4 @@
-defmodule AxislootWeb.Forms.SortingForm do
+defmodule AxislootWeb.Forms.EventSortingForm do
   import Ecto.Changeset
   alias Axisloot.EctoHelper
 
@@ -18,5 +18,7 @@ defmodule AxislootWeb.Forms.SortingForm do
     |> apply_action(:insert)
   end
 
-  def default_values(), do: @default_values
+  def default_values(overrides \\ %{}) do
+    Map.merge(@default_values, overrides)
+  end
 end

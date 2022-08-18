@@ -146,6 +146,14 @@
     }
 }
 
+.w-30 {
+    width: 30%;
+}
+
+.w-15 {
+    width: 15%;
+}
+
 .smol12 {
     font-size: 12px;
 }

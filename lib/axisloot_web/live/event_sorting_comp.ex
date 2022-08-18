@@ -1,4 +1,4 @@
-defmodule AxislootWeb.Live.SortingComp do
+defmodule AxislootWeb.Live.EventSortingComp do
   @moduledoc "Clickable sorting chevron for columns"
 
   use AxislootWeb, :live_component

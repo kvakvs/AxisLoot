@@ -18,7 +18,7 @@ defmodule AxislootWeb.Router do
     pipe_through :browser
 
     #    get "/", StaticIndexPageController, :index
-    live "/", LootPageController
+    live "/", LootHistoryController
   end
 
   # Other scopes may use custom stacks.
