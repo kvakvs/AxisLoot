@@ -3,6 +3,7 @@ defmodule AxislootWeb.LootHistoryController do
   alias Axisloot.LootHistories
   alias AxislootWeb.Forms.EventSortingForm
   alias AxislootWeb.Forms.EventFilterForm
+  alias AxislootWeb.Forms.PaginationForm
 
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -20,12 +21,20 @@ defmodule AxislootWeb.LootHistoryController do
 
   defp parse_params(socket, params) do
     with {:ok, sorting_opts} <- EventSortingForm.parse(params),
-         {:ok, filter_opts} <- EventFilterForm.parse(params) do
-      socket |> assign_sorting(sorting_opts) |> assign_filter(filter_opts)
+         {:ok, filter_opts} <- EventFilterForm.parse(params),
+         {:ok, pagination_opts} <- PaginationForm.parse(params) do
+      socket
+      |> assign_sorting(sorting_opts)
+      |> assign_filter(filter_opts)
+      |> assign_pagination(pagination_opts)
     else
       _error ->
-        socket |> assign_sorting() |> assign_filter()
+        socket |> assign_sorting() |> assign_filter() |> assign_pagination()
     end
+  end
+
+  defp assign_pagination(socket, overrides \\ %{}) do
+    assign(socket, :pagination, PaginationForm.default_values(overrides))
   end
 
   defp assign_sorting(socket, overrides \\ %{}) do
@@ -41,10 +50,15 @@ defmodule AxislootWeb.LootHistoryController do
   # Read the database of events
   defp assign_loot_history(socket) do
     params = merge_and_sanitize_params(socket)
-    #    %{sorting: sorting, filter: filtering} = socket.assigns
+
+    %{
+      values: values,
+      total_count: total_count
+    } = LootHistories.list_events_with_count(params)
 
     socket
-    |> assign(:loot_history, LootHistories.list_events(params))
+    |> assign(:loot_history, values)
+    |> assign_total_count(total_count)
   end
 
   def render(assigns) do
@@ -113,6 +127,11 @@ defmodule AxislootWeb.LootHistoryController do
       <% end %>
     </tbody>
     </table>
+
+    <.live_component
+      module={AxislootWeb.Live.PaginationComponent}
+      id="pagination"
+      pagination={@pagination} />
     """
   end
 
@@ -135,13 +154,24 @@ defmodule AxislootWeb.LootHistoryController do
   end
 
   defp merge_and_sanitize_params(socket, overrides \\ %{}) do
-    %{sorting: sorting, filter: filter} = socket.assigns
+    %{
+      sorting: sorting,
+      filter: filter,
+      pagination: pagination
+    } = socket.assigns
 
     %{}
     |> Map.merge(sorting)
     |> Map.merge(filter)
+    |> Map.merge(pagination)
     |> Map.merge(overrides)
+    |> Map.drop([:total_count])
     |> Enum.reject(fn {_key, value} -> is_nil(value) end)
     |> Map.new()
+  end
+
+  defp assign_total_count(socket, total_count) do
+    update_fn = fn pagination -> %{pagination | total_count: total_count} end
+    update(socket, :pagination, update_fn)
   end
 end

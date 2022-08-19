@@ -38,9 +38,9 @@ defmodule AxislootWeb.Live.EventFilterComp do
     {:ok, assign(socket, :changeset, EventFilterForm.change_values(filter))}
   end
 
-#  def handle_event("reset", _, socket) do
-#    {:ok, assign(socket, :changeset, EventFilterForm.default_values)}
-#  end
+  #  def handle_event("reset", _, socket) do
+  #    {:ok, assign(socket, :changeset, EventFilterForm.default_values)}
+  #  end
 
   def handle_event("search", %{"filter" => filter}, socket) do
     case EventFilterForm.parse(filter) do
