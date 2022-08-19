@@ -41,7 +41,7 @@ defmodule AxislootWeb.LootHistoryController do
   # Read the database of events
   defp assign_loot_history(socket) do
     params = merge_and_sanitize_params(socket)
-#    %{sorting: sorting, filter: filtering} = socket.assigns
+    #    %{sorting: sorting, filter: filtering} = socket.assigns
 
     socket
     |> assign(:loot_history, LootHistories.list_events(params))
@@ -136,6 +136,7 @@ defmodule AxislootWeb.LootHistoryController do
 
   defp merge_and_sanitize_params(socket, overrides \\ %{}) do
     %{sorting: sorting, filter: filter} = socket.assigns
+
     %{}
     |> Map.merge(sorting)
     |> Map.merge(filter)

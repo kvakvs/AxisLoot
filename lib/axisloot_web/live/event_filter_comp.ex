@@ -26,6 +26,7 @@ defmodule AxislootWeb.Live.EventFilterComp do
           </div>
           <div style="margin: auto 0px 4px 8px">
             <%= submit "Filter" %>
+            <!--button phx-click="reset">Reset</button-->
           </div>
         </div>
       </.form>
@@ -36,6 +37,10 @@ defmodule AxislootWeb.Live.EventFilterComp do
   def update(%{filter: filter}, socket) do
     {:ok, assign(socket, :changeset, EventFilterForm.change_values(filter))}
   end
+
+#  def handle_event("reset", _, socket) do
+#    {:ok, assign(socket, :changeset, EventFilterForm.default_values)}
+#  end
 
   def handle_event("search", %{"filter" => filter}, socket) do
     case EventFilterForm.parse(filter) do
