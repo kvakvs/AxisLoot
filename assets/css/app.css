@@ -165,3 +165,35 @@
 .clear {
     clear: both;
 }
+
+.pagination-button {
+    border: 1px solid rgb(100, 100, 100);
+    border-radius: 5px;
+    width: 3rem;
+    text-align: center;
+    margin: 3px 2px;
+    color: rgb(100, 100, 100);
+    font-weight: 400;
+}
+
+.pagination-button.active {
+    border: 1px solid #000;
+    color: #fff;
+    background-color: #000;
+}
+
+div.topbar {
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid black;
+}
+
+.topbar button {
+    background: none;
+    color: black;
+}
+
+.topbar button.active {
+    background: black;
+    color: white;
+}

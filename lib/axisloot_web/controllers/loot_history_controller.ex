@@ -61,16 +61,18 @@ defmodule AxislootWeb.LootHistoryController do
     |> assign_total_count(total_count)
   end
 
+#    <%= if @show_add_event_form do %>
+#       <button phx-click="hide-add-event">Hide form</button>
+#     <.live_component
+#        id={"add_event_form"}
+#        module={AxislootWeb.Live.AddEventFormComp} />
+#    <% else %>
+#      <button phx-click="show-add-event">Add event</button>
+#    <% end %>
+
   def render(assigns) do
     ~H"""
-    <%= if @show_add_event_form do %>
-       <button phx-click="hide-add-event">Hide form</button>
-     <.live_component
-        id={"add_event_form"}
-        module={AxislootWeb.Live.AddEventFormComp} />
-    <% else %>
-      <button phx-click="show-add-event">Add event</button>
-    <% end %>
+    <.live_component id="topnav" module={AxislootWeb.Live.PageSwitcherComp} from_page={:loot_history} />
 
     <.live_component
       module={AxislootWeb.Live.EventFilterComp}
@@ -139,13 +141,17 @@ defmodule AxislootWeb.LootHistoryController do
     if ev.updated_at == ev.inserted_at, do: "", else: ev.updated_at
   end
 
-  def handle_event("show-add-event", _value, socket) do
-    {:noreply, assign(socket, :show_add_event_form, true)}
+  def handle_event("nav_" <> event, _value, socket) do
+    AxislootWeb.Live.PageSwitcherComp.handle_event(event, _value, socket)
   end
 
-  def handle_event("hide-add-event", _value, socket) do
-    {:noreply, assign(socket, :show_add_event_form, false)}
-  end
+#  def handle_event("show-add-event", _value, socket) do
+#    {:noreply, assign(socket, :show_add_event_form, true)}
+#  end
+
+#  def handle_event("hide-add-event", _value, socket) do
+#    {:noreply, assign(socket, :show_add_event_form, false)}
+#  end
 
   def handle_info({:update, opts}, socket) do
     params = merge_and_sanitize_params(socket, opts)

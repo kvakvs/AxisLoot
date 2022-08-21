@@ -10,7 +10,7 @@ defmodule AxislootWeb.Live.PaginationComponent do
           <div phx-click="show_page"
               phx-value-page={page_number}
               phx-target={@myself}
-              class={if current_page?, do: "active"} >
+              class={if current_page?, do: "pagination-button active", else: "pagination-button"} >
             <%= page_number %>
           </div>
         <% end %>
