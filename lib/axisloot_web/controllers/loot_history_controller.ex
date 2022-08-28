@@ -61,14 +61,14 @@ defmodule AxislootWeb.LootHistoryController do
     |> assign_total_count(total_count)
   end
 
-#    <%= if @show_add_event_form do %>
-#       <button phx-click="hide-add-event">Hide form</button>
-#     <.live_component
-#        id={"add_event_form"}
-#        module={AxislootWeb.Live.AddEventFormComp} />
-#    <% else %>
-#      <button phx-click="show-add-event">Add event</button>
-#    <% end %>
+  #    <%= if @show_add_event_form do %>
+  #       <button phx-click="hide-add-event">Hide form</button>
+  #     <.live_component
+  #        id={"add_event_form"}
+  #        module={AxislootWeb.Live.AddEventFormComp} />
+  #    <% else %>
+  #      <button phx-click="show-add-event">Add event</button>
+  #    <% end %>
 
   def render(assigns) do
     ~H"""
@@ -120,7 +120,8 @@ defmodule AxislootWeb.LootHistoryController do
         <td><%= ev.id %></td>
         <td><%= ev.event %></td>
         <td><%= ev.text %></td>
-        <td><%= ev.who %></td>
+        <td><%= ev.equipment_slot %></td>
+        <td><%= ev.raider.name %></td>
         <td class="smol12 gray">
           <div class="clear"><%= ev.inserted_at %></div>
           <div class="clear"><%= updated_at(ev) %></div>
@@ -145,13 +146,13 @@ defmodule AxislootWeb.LootHistoryController do
     AxislootWeb.Live.PageSwitcherComp.handle_event(event, _value, socket)
   end
 
-#  def handle_event("show-add-event", _value, socket) do
-#    {:noreply, assign(socket, :show_add_event_form, true)}
-#  end
+  #  def handle_event("show-add-event", _value, socket) do
+  #    {:noreply, assign(socket, :show_add_event_form, true)}
+  #  end
 
-#  def handle_event("hide-add-event", _value, socket) do
-#    {:noreply, assign(socket, :show_add_event_form, false)}
-#  end
+  #  def handle_event("hide-add-event", _value, socket) do
+  #    {:noreply, assign(socket, :show_add_event_form, false)}
+  #  end
 
   def handle_info({:update, opts}, socket) do
     params = merge_and_sanitize_params(socket, opts)

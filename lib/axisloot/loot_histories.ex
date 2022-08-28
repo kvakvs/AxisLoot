@@ -68,12 +68,4 @@ defmodule Axisloot.LootHistories do
   end
 
   defp filter_by_who(query, _opts), do: query
-
-  @doc "Test data not for production, only call from iex"
-  def fixtures() do
-    Repo.insert(%LootHistory{id: 1, event: "loot", text: "Grand Crown of Winning", who: "Nar"})
-    Repo.insert(%LootHistory{id: 2, event: "loot", text: "Small Pants of Losing", who: "Spah"})
-    Repo.insert(%LootHistory{id: 3, event: "loot", text: "Charm of the Commander", who: "Camo"})
-    Repo.insert(%LootHistory{id: 4, event: "loot", text: "Super Mana Potion", who: "Jun"})
-  end
 end

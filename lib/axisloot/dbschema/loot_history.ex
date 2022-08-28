@@ -6,7 +6,8 @@ defmodule Axisloot.Dbschema.LootHistory do
   schema "loot_history" do
     field :event, :string
     field :text, :string
-    field :who, :string
+    field :equipment_slot, Ecto.Enum, values: Axisloot.Const.equipment_slots()
+    belongs_to :raider, Axisloot.Dbschema.Raider
 
     timestamps()
   end
