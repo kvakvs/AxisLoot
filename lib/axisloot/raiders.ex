@@ -1,24 +1,24 @@
-defmodule Axisloot.LootHistories do
-  @moduledoc "Query helpers for loot history table"
+defmodule Axisloot.Raiders do
+  @moduledoc "Query helpers for raiders table"
   import Ecto.Query, warn: false
   alias Axisloot.Repo
-  alias Axisloot.Dbschema.LootHistory
+  alias Axisloot.Dbschema.Raider
 
-  def list_events() do
-    Repo.all(LootHistory)
+  def list_raiders() do
+    Repo.all(Raider)
   end
 
-  def list_events(opts) do
-    from(m in LootHistory)
+  def list_raiders(opts) do
+    from(m in Raider)
     |> filter(opts)
     |> sort(opts)
     |> Repo.all()
   end
 
-  def list_events_with_count(opts) do
-    query = from(m in LootHistory) |> filter(opts)
+  def list_raiders_with_count(opts) do
+    query = from(r in Raider) |> filter(opts)
     total_count = Repo.aggregate(query, :count)
-    result = query |> sort(opts) |> paginate(opts) |> Repo.all() |> Repo.preload(:raider)
+    result = query |> sort(opts) |> paginate(opts) |> Repo.all()
     {:ok, result, total_count}
     %{values: result, total_count: total_count}
   end
@@ -35,7 +35,7 @@ defmodule Axisloot.LootHistories do
   defp paginate(query, _opts), do: query
 
   defp sort(query, %{sort_by: sort_by, sort_dir: sort_dir})
-       when sort_by in [:id, :event, :text, :who] and
+       when sort_by in [:name, :token_type] and
               sort_dir in [:asc, :desc] do
     order_by(query, {^sort_dir, ^sort_by})
   end

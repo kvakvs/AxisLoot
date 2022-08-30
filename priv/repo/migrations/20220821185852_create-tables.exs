@@ -2,10 +2,10 @@ defmodule :"Elixir.Axisloot.Repo.Migrations.Create-tables" do
   use Ecto.Migration
 
   def up do
-
     create table("raider") do
       add :name, :string
       add :joined, :date
+      add :token_type, :string, size: 20
 
       timestamps()
     end

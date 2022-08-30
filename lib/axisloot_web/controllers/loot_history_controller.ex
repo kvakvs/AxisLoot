@@ -14,7 +14,8 @@ defmodule AxislootWeb.LootHistoryController do
       socket
       |> parse_params(params)
       |> assign_loot_history()
-      |> assign(:show_add_event_form, false)
+
+    #      |> assign(:show_add_event_form, false)
 
     {:noreply, socket}
   end
@@ -61,15 +62,6 @@ defmodule AxislootWeb.LootHistoryController do
     |> assign_total_count(total_count)
   end
 
-  #    <%= if @show_add_event_form do %>
-  #       <button phx-click="hide-add-event">Hide form</button>
-  #     <.live_component
-  #        id={"add_event_form"}
-  #        module={AxislootWeb.Live.AddEventFormComp} />
-  #    <% else %>
-  #      <button phx-click="show-add-event">Add event</button>
-  #    <% end %>
-
   def render(assigns) do
     ~H"""
     <.live_component id="topnav" module={AxislootWeb.Live.PageSwitcherComp} from_page={:loot_history} />
@@ -101,6 +93,13 @@ defmodule AxislootWeb.LootHistoryController do
           module={AxislootWeb.Live.EventSortingComp}
           id={"sorting-text"}
           key={:text}
+          sorting={@sorting} />
+      </th>
+      <th>
+        <.live_component
+          module={AxislootWeb.Live.EventSortingComp}
+          id={"sorting-equipment_slot"}
+          key={:equipment_slot}
           sorting={@sorting} />
       </th>
       <th>

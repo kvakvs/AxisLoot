@@ -6,11 +6,11 @@ defmodule Axisloot.Fixtures do
   import Ecto.Query, warn: false
 
   defp raiders() do
-    Repo.insert(%Raider{name: "Nar", joined: Date.utc_today})
-    Repo.insert(%Raider{name: "Camo", joined: Date.utc_today})
-    Repo.insert(%Raider{name: "Jun", joined: Date.utc_today})
-    Repo.insert(%Raider{name: "Spah", joined: Date.utc_today})
-    Repo.insert(%Raider{name: "Gula", joined: Date.utc_today})
+    Repo.insert(%Raider{name: "Nar", joined: Date.utc_today()})
+    Repo.insert(%Raider{name: "Camo", joined: Date.utc_today()})
+    Repo.insert(%Raider{name: "Jun", joined: Date.utc_today()})
+    Repo.insert(%Raider{name: "Spah", joined: Date.utc_today()})
+    Repo.insert(%Raider{name: "Gula", joined: Date.utc_today()})
   end
 
   defp loot_history() do
